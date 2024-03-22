@@ -2,28 +2,28 @@
 
 node('built-in')
 {
-    stage('ContDownload')
+    stage('ContDownload_Master')
     {
         cicd.gitDownload("maven")
     }
-    stage('ContBuild')
+    stage('ContBuild_Master')
     {
          cicd.mavenBuild()
 
     }
-    stage('ContDeployment')
+    stage('ContDeployment_Master')
     {
         cicd.tomcatDeploy("ScriptedPipelinewithSharedLibraries","172.31.20.244","testapp")
 
     }
-    stage('ContTesting')
+    stage('ContTesting_Master')
     {
         
        cicd.gitDownload("FunctionalTesting")
         cicd.runSelenium("ScriptedPipelinewithSharedLibraries")
 
     }  
-    stage('ContDelivery')
+    stage('ContDelivery_Master')
     {
         cicd.tomcatDeploy("ScriptedPipelinewithSharedLibraries","172.31.30.157","prodapp")
     }
