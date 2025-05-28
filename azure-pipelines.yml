@@ -29,8 +29,8 @@ stages:
             inputs:
              targetType: 'inline'
              script: 'cd /home/azureuser/myagent/_work/2/s;mvn package'
-  - stage: CreateDockerFile
-    displayName: CreateDockerFile
+  - stage: CreateDockerFileandImage
+    displayName: CreateDockerFileandImage
     jobs:
       - job: CreateDockerFile
         displayName: CreateDockerFile
@@ -43,16 +43,11 @@ stages:
                FROM tomee
                COPY webapp/target/webapp.war /usr/local/tomee/webapps/testapp.war
                EOF
-  - stage: BuildDockerImage
-    displayName: BuildDockerImage
-    jobs:
-      - job: BuildDockerImage
-        displayName: BuildDockerImage
+      - job: CreateDockerImage
+        displayName: CreateDockerImage
         steps:
           - task: Bash@3
             inputs:
              targetType: 'inline'
              script: cd /home/azureuser/myagent/_work/2/s;docker build -t intelliqit.azurecr.io/myapp .
-
-
-
+  
