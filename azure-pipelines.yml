@@ -7,7 +7,7 @@ trigger:
 - main
 
 pool:
-  name: 'myagent'
+  name: 'agent1'
 stages:
   - stage: Download
     displayName: Download
