@@ -43,11 +43,5 @@ stages:
                FROM tomee
                COPY webapp/target/webapp.war /usr/local/tomee/webapps/testapp.war
                EOF
-      - job: CreateDockerImage
-        displayName: CreateDockerImage
-        steps:
-          - task: Bash@3
-            inputs:
-             targetType: 'inline'
-             script: cd /home/azureuser/myagent/_work/2/s;docker build -t intelliqit.azurecr.io/myapp .
+      
   
