@@ -29,6 +29,21 @@ stages:
             inputs:
              targetType: 'inline'
              script: 'cd /home/azureuser/myagent/_work/2/s;mvn package'
+  - stage: CreateDockerFile
+    displayName: CreateDockerFile
+    jobs:
+      - job: CreateDockerFile
+        displayName: CreateDockerFile
+        steps:
+          - task: Bash@3
+            inputs:
+             targetType: 'inline'
+             script: |
+               cat <<EOF > dockerfile
+               FROM tomee
+               COPY webapp/target/webapp.war /usr/local/tomee/webapps/testapp.war
+               EOF
+
 
 
 
