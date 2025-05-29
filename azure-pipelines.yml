@@ -32,12 +32,12 @@ stages:
           - task: Bash@3
             inputs:
              targetType: 'inline'
-             script: 'cp /home/azureuser/myagent/_work/2/s/webapp/target/webapp.war ~/2/s/'
+             script: 'cp /home/azureuser/myagent/_work/2/s/webapp/target/webapp.war /home/azureuser'
   - stage: CreateDockerFileandImage
-    displayName: CreateDockerFileandImage
+    displayName: CreateDockerFile
     jobs:
-      - job: CreateDockerFileandImage
-        displayName: CreateDockerFileandImage
+      - job: CreateDockerFileand
+        displayName: CreateDockerFileand
         steps:
           - task: Bash@3
             inputs:
@@ -45,11 +45,8 @@ stages:
              script: |
                cat <<EOF > dockerfile
                FROM tomee
-               COPY webapp.war /usr/local/tomee/webapps/testapp.war
+               COPY /home/azure/user/webapp.war /usr/local/tomee/webapps/testapp.war
                EOF
-          - task: Bash@3
-            inputs:
-             targetType: 'inline'
-             script: cd /home/azureuser/myagent/_work/2/s;docker build -t intelliqit.azurecr.io/myapp .  
+
       
   
