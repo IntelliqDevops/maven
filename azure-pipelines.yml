@@ -71,5 +71,32 @@ stages:
             inputs:
              targetType: 'inline'
              script: 'docker push intelliqitjava.azurecr.io/myapp'
-      
+  - stage: DeployToQA
+    displayName: DeployToQA
+    jobs:
+      - job: DeployToQA
+        displayName: DeployToQA
+        steps:
+          - task: Bash@3
+            inputs:
+             targetType: 'inline'
+             script: 'ssh azureuser@4.227.137.182 docker run  --name myapp -d -P intelliqitjava.azurecr.io/myapp'
+  - stage: RunSelenium
+    displayName: RunSelenium
+    jobs:
+      - job: RunSelenium
+        displayName: RunSelenium
+        steps:
+          - task: Bash@3
+            inputs:
+             targetType: 'inline'
+             script: 'git clon https://github.com/IntelliqDevops/FunctionalTesting.git' 
+          - task: Bash@3
+            inputs:
+             targetType: 'inline'
+             script: 'java -jar /home/azureuser/myagent/_work/2/s/testing.jar' 
+          - task: Bash@3
+            inputs:
+             targetType: 'inline'
+             script: 'ssh azureuser@4.227.137.182 docker rm -f myapp'    
   
