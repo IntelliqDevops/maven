@@ -47,6 +47,19 @@ stages:
                FROM tomee
                COPY /home/azure/user/webapp.war /usr/local/tomee/webapps/testapp.war
                EOF
-
+          - task: Bash@3
+            inputs:
+             targetType: 'inline'
+             script: 'cp cp /home/azureuser/myagent/_work/2/s/dockerfile /home/azure'
+  - stage: BuilDockerImage
+    displayName: BuilDockerImage
+    jobs:
+      - job: BuilDockerImage
+        displayName: BuilDockerImage
+        steps:
+          - task: Bash@3
+            inputs:
+             targetType: 'inline'
+             script: 'cd /home/azureuser;docker build -t intelliqitjava.azurecr.io/myapp .'
       
   
