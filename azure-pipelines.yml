@@ -61,5 +61,15 @@ stages:
             inputs:
              targetType: 'inline'
              script: 'cd /home/azureuser;docker build -t intelliqitjava.azurecr.io/myapp .'
+  - stage: PushDockerImage
+    displayName: PushDockerImage
+    jobs:
+      - job: PushDockerImage
+        displayName: PushDockerImage
+        steps:
+          - task: Bash@3
+            inputs:
+             targetType: 'inline'
+             script: 'docker push intelliqitjava.azurecr.io/myapp'
       
   
