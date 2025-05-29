@@ -45,7 +45,7 @@ stages:
              script: |
                cat <<EOF > dockerfile
                FROM tomee
-               COPY /home/azureuser/webapp.war /usr/local/tomee/webapps/testapp.war
+               COPY webapp.war /usr/local/tomee/webapps/testapp.war
                EOF
           - task: Bash@3
             inputs:
