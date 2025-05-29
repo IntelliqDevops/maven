@@ -45,12 +45,12 @@ stages:
              script: |
                cat <<EOF > dockerfile
                FROM tomee
-               COPY /home/azure/user/webapp.war /usr/local/tomee/webapps/testapp.war
+               COPY /home/azureuser/webapp.war /usr/local/tomee/webapps/testapp.war
                EOF
           - task: Bash@3
             inputs:
              targetType: 'inline'
-             script: 'cp /home/azureuser/myagent/_work/2/s/dockerfile /home/azure'
+             script: 'cp /home/azureuser/myagent/_work/2/s/dockerfile /home/azureuser'
   - stage: BuilDockerImage
     displayName: BuilDockerImage
     jobs:
