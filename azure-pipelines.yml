@@ -1,0 +1,117 @@
+# Maven
+# Build your Java project and run tests with Apache Maven.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+
+trigger:
+- main
+
+pool:
+  name: 'agent1'
+stages:
+  - stage: Download
+    displayName: Download
+    jobs:
+      - job: Dwonload
+        displayName: Download
+        steps:
+          - task: Bash@3
+            inputs:
+             targetType: 'inline'
+             script: 'git clone https://github.com/IntelliqDevops/maven.git'
+  - stage: Build
+    displayName: Build
+    jobs:
+      - job: Build
+        displayName: Build
+        steps:
+          - task: Bash@3
+            inputs:
+             targetType: 'inline'
+             script: 'cd /home/azureuser/myagent/_work/2/s;mvn package'
+          - task: Bash@3
+            inputs:
+             targetType: 'inline'
+             script: 'cp /home/azureuser/myagent/_work/2/s/webapp/target/webapp.war /home/azureuser'
+  - stage: CreateDockerFileandImage
+    displayName: CreateDockerFile
+    jobs:
+      - job: CreateDockerFileand
+        displayName: CreateDockerFileand
+        steps:
+          - task: Bash@3
+            inputs:
+             targetType: 'inline'
+             script: |
+               cat <<EOF > dockerfile
+               FROM tomee
+               COPY webapp.war /usr/local/tomee/webapps/testapp.war
+               EOF
+          - task: Bash@3
+            inputs:
+             targetType: 'inline'
+             script: 'cp /home/azureuser/myagent/_work/2/s/dockerfile /home/azureuser'
+  - stage: BuilDockerImage
+    displayName: BuilDockerImage
+    jobs:
+      - job: BuilDockerImage
+        displayName: BuilDockerImage
+        steps:
+          - task: Bash@3
+            inputs:
+             targetType: 'inline'
+             script: 'cd /home/azureuser;docker build -t intelliqitjava.azurecr.io/myapp .'
+  - stage: PushDockerImage
+    displayName: PushDockerImage
+    jobs:
+      - job: PushDockerImage
+        displayName: PushDockerImage
+        steps:
+          - task: Bash@3
+            inputs:
+             targetType: 'inline'
+             script: 'docker push intelliqitjava.azurecr.io/myapp'
+  - stage: DeployToQA
+    displayName: DeployToQA
+    jobs:
+      - job: DeployToQA
+        displayName: DeployToQA
+        steps:
+          - task: Bash@3
+            inputs:
+             targetType: 'inline'
+             script: 'ssh azureuser@4.227.137.182 docker run  --name myapp -d -P intelliqitjava.azurecr.io/myapp'
+  - stage: RunSelenium
+    displayName: RunSelenium
+    jobs:
+      - job: RunSelenium
+        displayName: RunSelenium
+        steps:
+          - task: Bash@3
+            inputs:
+             targetType: 'inline'
+             script: 'git clone https://github.com/IntelliqDevops/FunctionalTesting.git' 
+          - task: Bash@3
+            inputs:
+             targetType: 'inline'
+             script: 'java -jar /home/azureuser/myagent/_work/2/s/FunctionalTesting/testing.jar' 
+          - task: Bash@3
+            inputs:
+             targetType: 'inline'
+             script: 'ssh azureuser@4.227.137.182 docker rm -f myapp' 
+  - stage: DeployToAKS
+    displayName: DeployToAKS
+    jobs:
+      - job: DeployToAKS
+        displayName: DeployToAKS
+        steps:
+         - task: KubernetesManifest@1
+           inputs:
+            action: 'deploy'
+            connectionType: 'azureResourceManager'
+            azureSubscriptionConnection: 'Azure subscription 1(2fa156ff-be60-46ef-b21b-546fa6d14cf1)'
+            azureResourceGroup: 'ci-cd'
+            kubernetesCluster: 'cluster-1'
+            useClusterAdmin: true
+            manifests: 'myapp.yml'
+  
