@@ -1,42 +1,59 @@
+@Library('samplelibrary')_
+
 pipeline
 {
     agent any
     stages
     {
-        stage('Download')
+        stage('Download_Master')
         {
             steps
             {
-                git 'https://github.com/IntelliqDevops/maven.git'
+                script
+                {
+                    cicd.gitDownload("maven")
+                }
             }
         }
-        stage('Build')
+        stage('Build_Master')
         {
             steps
             {
-                sh 'mvn package'
+                script
+                {
+                    cicd.buildArtifact()
+                }
             }
         }
-        stage('Deployment')
+        stage('Deployment_Master')
         {
             steps
             {
-                sh 'scp /var/lib/jenkins/workspace/DeclarativePipeline1/webapp/target/webapp.war ubuntu@172.31.18.248:/var/lib/tomcat10/webapps/mytestapp.war'
+                script
+                {
+                    cicd.deployTomcat("DeclarativePipelinewithSharedLibraries","172.31.18.248","testapp")
+                }
             }
         }
-        stage('Testing')
+        stage('Testing_Master')
         {
             steps
             {
-            git 'https://github.com/IntelliqDevops/FunctionalTesting.git'
-            sh 'java -jar /var/lib/jenkins/workspace/DeclarativePipeline1/testing.jar'
+                script
+                {
+                    cicd.gitDownload("FunctionalTesting")
+                    cicd.runSelenium("DeclarativePipelinewithSharedLibraries")
+                }
             }
         }
-        stage('Delivery')
+        stage('Delivery_Master')
         {
             steps
             {
-                sh 'scp /var/lib/jenkins/workspace/DeclarativePipeline1/webapp/target/webapp.war ubuntu@172.31.19.128:/var/lib/tomcat10/webapps/myprodapp.war'
+                script
+                {
+                    cicd.deployTomcat("DeclarativePipelinewithSharedLibraries","172.31.19.128","prodapp")
+                }
             }
         }
     }
