@@ -24,5 +24,9 @@ steps:
     script: |
        cat <<EOF > Dockerfile
        FROM tomee
-       COPY webapp.war /usr/local/tomee/webapps/myapp.war
+       COPY webapp/traget/webapp.war /usr/local/tomee/webapps/myapp.war
        EOF
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: 'docker build -t myapp .'
