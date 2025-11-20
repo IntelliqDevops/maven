@@ -18,19 +18,3 @@ steps:
   inputs:
     targetType: 'inline'
     script: 'cd /home/azureuser/myagent/_work/1/s;mvn package'
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: 'scp /home/azureuser/myagent/_work/1/s/webapp/target/webapp.war azureuser@20.246.81.121:/var/lib/tomcat10/webapps/testapp.war'
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: 'git clone https://github.com/IntelliqDevops/FunctionalTesting.git'
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: 'java -jar /home/azureuser/myagent/_work/1/s/FunctionalTesting/testing.jar'
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: 'scp /home/azureuser/myagent/_work/1/s/webapp/target/webapp.war azureuser@135.18.241.143:/var/lib/tomcat10/webapps/prodapp.war'
