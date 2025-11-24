@@ -42,3 +42,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: 'ssh azureuser@68.154.48.49 ansible-playbook deploy_container_qa.yml -b'
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: 'git clone https://github.com/IntelliqDevops/FunctionalTesting.git'
