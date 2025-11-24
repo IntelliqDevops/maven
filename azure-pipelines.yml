@@ -53,4 +53,4 @@ steps:
 - task: Bash@3
   inputs:
     targetType: 'inline'
-    script: 'ssh azureuser@68.154.48.49 ansible all -m shell -a "docker rm -f $(docker ps -aq)" -b'
+    script: "ssh azureuser@68.154.48.49 ansible all -m shell -a 'docker rm -f $(docker ps -aq)' -b"
