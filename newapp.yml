@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-app-deployment
+  labels:
+   app: java-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: java-app
+  template:
+    metadata:
+       name: java-app-pod
+       labels:
+         app: java-app  
+    spec:
+       containers:
+         - name: java-app
+           image: intelliq.azurecr.io/javaapp:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: java-app-service
+  labels:
+    author: intellqiit
+spec:
+  type: LoadBalancer
+  ports:
+   - targetPort: 8080
+     port: 80
+     nodePort: 30009
+  selector:
+    app: java-app 
+...
