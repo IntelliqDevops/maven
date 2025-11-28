@@ -29,15 +29,12 @@ steps:
 - task: Bash@3
   inputs:
     targetType: 'inline'
-    script: 'docker build -t intelliqit.azurecr.io/javaapp .'
+    script: 'docker build -t intelliq.azurecr.io/javaapp .'
 - task: Bash@3
   inputs:
     targetType: 'inline'
-    script: 'docker push intelliqit.azurecr.io/javaapp'
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: 'docker push intelliqit.azurecr.io/javaapp'
+    script: 'docker push intelliq.azurecr.io/javaapp'
+
 - task: Bash@3
   inputs:
     targetType: 'inline'
