@@ -51,3 +51,11 @@ steps:
   inputs:
     targetType: 'inline'
     script: "ssh azureuser@68.154.48.49 ansible-playbook delete.yml -b"
+- task: KubernetesManifest@1
+  inputs:
+    action: 'deploy'
+    connectionType: 'azureResourceManager'
+    azureSubscriptionConnection: 'Azure subscription 1(76c3a997-c17e-4d9d-95f9-b76d0a5cf28b)'
+    azureResourceGroup: 'myk8s'
+    kubernetesCluster: 'cluster-1'
+    manifests: 'newapp.yml'
