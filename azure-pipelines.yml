@@ -22,3 +22,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: 'scp /home/azureuser/myagent/_work/1/s/webapp/target/webapp.war azureuser@20.246.80.119:/var/lib/tomcat10/webapps/testapp.war'
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: 'git clone https://github.com/IntelliqDevops/FunctionalTesting.git'
