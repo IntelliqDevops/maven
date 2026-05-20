@@ -1,0 +1,12 @@
+
+trigger:
+- master
+
+pool:
+  name: agent1
+
+steps:
+- script: git clone https://github.com/IntelliqDevops/maven.git
+  displayName: 'ContDownload'
+
+
