@@ -11,6 +11,8 @@ steps:
 - script: cd /home/azureuser/_work/1/s;mvn package
   displayName: 'ContBuild'
 - script: scp /home/azureuser/_work/1/s/webapp/target/webapp.war azureuser@20.63.88.157:/var/lib/tomcat10/webapps/mytestapp.war
-  displayName: ContDeployment
+  displayName: 'ContDeployment'
+- script: git clone https://github.com/IntelliqDevops/FunctionalTesting.git
+  displayName: 'Download selenium scripts'
 
 
