@@ -15,4 +15,5 @@ steps:
   displayName: DownloadSeleniumCode
 - script: java -jar /home/azureuser/myagent/_work/1/s/FunctionalTesting/testing.jar
   displayName: RunSelenium
-
+- script: scp /home/azureuser/myagent/_work/1/s/webapp/target/webapp.war azureuser@20.200.121.160:/var/lib/tomcat10/webapps/myprodapp.war
+  displayName: DeployToProd
