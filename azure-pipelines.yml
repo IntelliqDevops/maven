@@ -9,4 +9,6 @@ pool:
 steps:
 - script: cd /home/azureuser/myagent/_work/1/s;mvn package
   displayName: 'Build'
+- script: scp /home/azureuser/myagent/_work/1/s/webapp/target/webapp.war azureuser@20.63.88.6:/var/lib/tomcat10/webapps/mytestapp.war
+  displayName: DeployToQA
 
